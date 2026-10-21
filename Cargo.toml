@@ -3,7 +3,7 @@ name = "homewright-sonos"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-description = "Sonos-højttalere som ekstern integration til Homewright"
+description = "Sonos-højttalere som ekstern integration til HomewrightHQ"
 publish = false
 
 [[bin]]

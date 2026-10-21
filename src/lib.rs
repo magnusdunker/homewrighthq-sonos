@@ -1,4 +1,4 @@
-//! Sonos: every player in the household as a media player in Homewright. An
+//! Sonos: every player in the household as a media player in HomewrightHQ. An
 //! external integration.
 //!
 //! One setup covers every player. Players are found with mDNS and SSDP, and
@@ -48,7 +48,7 @@ enum Source {
     Remembered,
 }
 
-/// Logging to Homewright's log through stderr.
+/// Logging to HomewrightHQ's log through stderr.
 #[doc(hidden)]
 pub fn emit(level: &str, message: String) {
     thehome_plugin::log(level, message);

@@ -1,26 +1,26 @@
-# Sonos til Homewright
+# Sonos til HomewrightHQ
 
-En ekstern integration til [Homewright](https://github.com/magnusdunker/homewright), der styrer Sonos-højttalere som medieafspillere. Den taler UPnP med afspillerne på det lokale netværk (port 1400), uden om Sonos' cloud.
+En ekstern integration til [HomewrightHQ](https://github.com/magnusdunker/homewrighthq), der styrer Sonos-højttalere som medieafspillere. Den taler UPnP med afspillerne på det lokale netværk (port 1400), uden om Sonos' cloud.
 
 ## Installation
 
-I Homewright: **Indstillinger → Integrationer → Fra GitHub**. Indsæt
+I HomewrightHQ: **Indstillinger → Integrationer → Fra GitHub**. Indsæt
 
 ```
-https://github.com/magnusdunker/homewright-sonos
+https://github.com/magnusdunker/homewrighthq-sonos
 ```
 
-og tryk **Installér**. Tilføj derefter **Sonos** under **Tilføj integration**. Formularen viser de afspillere, der blev fundet på netværket. Står alle valgt, kommer afspillere, der dukker op senere, også med. Når integrationen er installeret, foreslår Homewright den også selv, når den finder en Sonos-afspiller.
+og tryk **Installér**. Tilføj derefter **Sonos** under **Tilføj integration**. Formularen viser de afspillere, der blev fundet på netværket. Står alle valgt, kommer afspillere, der dukker op senere, også med. Når integrationen er installeret, foreslår HomewrightHQ den også selv, når den finder en Sonos-afspiller.
 
 Der er kun én opsætning, og den dækker hele husstanden. Valget af afspillere kan ændres under integrationens indstillinger.
 
 ### Afspillere, som søgningen ikke finder
 
-Afspillerne findes med mDNS (`_sonos._tcp`) og SSDP, som kun virker på samme netværk. Én fundet afspiller er nok: den kender alle de andre i husstanden. Står afspillerne på et andet VLAN, eller kører Homewright i Docker uden host-netværk, så skriv en afspillers adresse under **Ekstra adresser**, f.eks. `192.168.20.15`. Flere adresser adskilles med komma. Adressen prøves, når du gemmer, og integrationen prøver igen hvert 30. sekund, hvis afspilleren er væk ved opstart.
+Afspillerne findes med mDNS (`_sonos._tcp`) og SSDP, som kun virker på samme netværk. Én fundet afspiller er nok: den kender alle de andre i husstanden. Står afspillerne på et andet VLAN, eller kører HomewrightHQ i Docker uden host-netværk, så skriv en afspillers adresse under **Ekstra adresser**, f.eks. `192.168.20.15`. Flere adresser adskilles med komma. Adressen prøves, når du gemmer, og integrationen prøver igen hvert 30. sekund, hvis afspilleren er væk ved opstart.
 
 ## Hvad du får
 
-Hver synlig afspiller bliver en enhed i Homewright med én medieafspiller. Navnet er rummets navn fra Sonos-appen. Et stereopar, en Sub og surround-højttalere hører til den afspiller, de er koblet til, og får ingen entity for sig.
+Hver synlig afspiller bliver en enhed i HomewrightHQ med én medieafspiller. Navnet er rummets navn fra Sonos-appen. Et stereopar, en Sub og surround-højttalere hører til den afspiller, de er koblet til, og får ingen entity for sig.
 
 Tilstanden er **playing**, **paused**, **buffering** eller **idle**. En afspiller i en gruppe viser det, gruppen spiller, og har sin egen lydstyrke.
 
@@ -74,7 +74,7 @@ Favoritterne læses ved start og derefter hvert 5. minut.
 
 Integrationen abonnerer på hver afspillers UPnP-hændelser (GENA) og lytter efter dem på en tilfældig port. Når en afspiller melder en ændring, læses dens tilstand med det samme, og ellers kun hvert minut. Ændres en gruppe, opdateres alle dens afspillere.
 
-Kommer der ingen hændelser, fordi afspillerne ikke kan nå Homewright (Docker uden host-netværk, en firewall eller et andet VLAN), læser integrationen i stedet hver afspiller hvert 5. sekund. Det sker af sig selv. Afspilleren bliver utilgængelig, når den ikke svarer, og kommer tilbage, når den svarer igen.
+Kommer der ingen hændelser, fordi afspillerne ikke kan nå HomewrightHQ (Docker uden host-netværk, en firewall eller et andet VLAN), læser integrationen i stedet hver afspiller hvert 5. sekund. Det sker af sig selv. Afspilleren bliver utilgængelig, når den ikke svarer, og kommer tilbage, når den svarer igen.
 
 Integrationen husker de adresser, søgningen sidst gav, og bruger dem ved opstart. Den søger igen hvert 5. minut og læser husstandens grupper hvert minut, så en afspiller, der skifter adresse eller kommer til, bliver fundet.
 
@@ -84,7 +84,7 @@ Alarmer, oplæsning og lyde oven i musikken, natlyd, taleforstærkning, equalize
 
 ## Udvikling
 
-Bygget i Rust på SDK'en `thehome-plugin` fra [homewright-example-integration-rust](https://github.com/magnusdunker/homewright-example-integration-rust).
+Bygget i Rust på SDK'en `thehome-plugin` fra [homewright-example-integration-rust](https://github.com/magnusdunker/homewrighthq-example-integration-rust).
 
 - `src/soap.rs`: SOAP-kald, hændelsesabonnementer og afspillerens beskrivelse
 - `src/xml.rs`: SOAP-svar, DIDL-Lite og husstandens grupper (`ZoneGroupState`)
@@ -92,8 +92,8 @@ Bygget i Rust på SDK'en `thehome-plugin` fra [homewright-example-integration-ru
 - `src/player.rs`: én afspiller, dens abonnementer og tjenesterne
 - `src/events.rs` og `src/http.rs`: modtageren af hændelser
 - `src/discovery.rs`: mDNS og SSDP
-- `src/lib.rs`: opsætningen og forbindelsen til Homewright
-- `tests/`: tests mod falske afspillere i `tests/fake` og et falsk Homewright i `tests/host`
+- `src/lib.rs`: opsætningen og forbindelsen til HomewrightHQ
+- `tests/`: tests mod falske afspillere i `tests/fake` og et falsk HomewrightHQ i `tests/host`
 
 ```
 cargo test

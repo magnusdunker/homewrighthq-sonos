@@ -1,4 +1,4 @@
-//! The plugin driven over a pipe the way Homewright drives it, against fake
+//! The plugin driven over a pipe the way HomewrightHQ drives it, against fake
 //! Sonos players on localhost.
 
 mod fake;
